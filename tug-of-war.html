@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Tug of War Game</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+      background-color: #f0f0f0;
+      margin: 0;
+      padding: 20px;
+    }
+    #gameContainer {
+      width: 100%;
+      max-width: 800px;
+      margin: auto;
+    }
+    #rope {
+      position: relative;
+      width: 100%;
+      height: 40px;
+      background-color: #ccc;
+      border-radius: 20px;
+      margin: 50px 0;
+      overflow: hidden;
+    }
+    #marker {
+      position: absolute;
+      width: 20px;
+      height: 40px;
+      background-color: red;
+      left: 50%;
+      transform: translateX(-50%);
+      transition: left 0.1s;
+    }
+    .score {
+      font-size: 1.2em;
+    }
+    #winner {
+      font-size: 1.5em;
+      color: green;
+      margin-top: 20px;
+    }
+  </style>
+</head>
+<body>
+  <div id="gameContainer">
+    <h1>Tug of War</h1>
+    <p>Player 1: Press "A" key | Player 2: Press "L" key</p>
+    <div id="rope">
+      <div id="marker"></div>
+    </div>
+    <div class="score">Player 1 Score: <span id="score1">0</span> | Player 2 Score: <span id="score2">0</span></div>
+    <div id="winner"></div>
+  </div>
+
+  <script>
+    const marker = document.getElementById('marker');
+    const score1El = document.getElementById('score1');
+    const score2El = document.getElementById('score2');
+    const winnerEl = document.getElementById('winner');
+
+    let markerPos = 50; // percent
+    let score1 = 0;
+    let score2 = 0;
+    const step = 1;
+
+    document.addEventListener('keydown', (e) => {
+      if (winnerEl.textContent !== '') return;
+
+      if (e.key.toLowerCase() === 'a') {
+        markerPos -= step;
+        score1++;
+      } else if (e.key.toLowerCase() === 'l') {
+        markerPos += step;
+        score2++;
+      }
+
+      markerPos = Math.max(0, Math.min(100, markerPos));
+      marker.style.left = markerPos + '%';
+      score1El.textContent = score1;
+      score2El.textContent = score2;
+
+      if (markerPos <= 0) {
+        winnerEl.textContent = '🏆 Player 1 Wins!';
+      } else if (markerPos >= 100) {
+        winnerEl.textContent = '🏆 Player 2 Wins!';
+      }
+    });
+  </script>
+</body>
+</html>
